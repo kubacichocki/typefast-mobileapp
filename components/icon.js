@@ -8,7 +8,6 @@ const Icon = ({text, style}) => {
                 source= {require('../assets/logo.png')}
                 style = {styles.img}
             />
-            <Text style={styles.txt}>{ text }</Text>
         </View>
     )
 
@@ -20,13 +19,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     img: {
-        width: 400,
-        height: 400,
+        width: 290,
+        height: 80,
+        marginBottom: 20,
     },
     txt: {
         fontSize: 32,
         fontWeight: '600',
-        marginTop: 5,
+        marginTop: 0,
 
     }
 })
