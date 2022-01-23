@@ -1,11 +1,12 @@
 import React from 'react';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import {Text, StyleSheet, Pressable, Image} from 'react-native';
 import images from '../utils/images'
+
 
 const Button = ({image, text, onPress, bgColor, bgColorPress, style}) => {
 
     const [bg, setBg] = React.useState(bgColor);
-
 
     return(
         <Pressable style={{...style, ...styles.btn, backgroundColor: bg,}}
@@ -16,8 +17,8 @@ const Button = ({image, text, onPress, bgColor, bgColorPress, style}) => {
         {image == '1'? <Image  source={images.google.uri} style={{height: 25, width: 25}}/> : null }
         <Text style={styles.text}>{text}</Text>
         </Pressable>
-    )
-};
+    )}
+
 
 const styles = StyleSheet.create({
     btn: {

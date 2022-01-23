@@ -1,26 +1,25 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import React, { useEffect } from "react";
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import Icon from '../components/Icon';
 
-const Splash = () => {
+const Splash = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate("Login")
-        }, 2000);
+            navigation.navigate('Login', { screen: 'Login' });
+        }, 1000);
     }, []);
     return (
         <View style={styles.center}>
-            <Text>Splash Screen</Text>
+           <Icon></Icon>
         </View>
     );
 };
-
 const styles = StyleSheet.create({
-    container: {
+    center: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})
-
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+    },
+});
 export default Splash;
