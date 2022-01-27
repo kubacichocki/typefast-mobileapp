@@ -8,7 +8,7 @@ const Contact = ({navigation}) => {
     auth
     .signOut()
     .then(()=>{
-      navigation.replace("Login", {screen: "Login"})
+        navigation.replace("Login", {screen: "Login"})    
     })
     .catch(error => alert(error.messsage))
   }

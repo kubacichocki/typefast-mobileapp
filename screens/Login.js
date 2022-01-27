@@ -17,10 +17,22 @@ import Button from "../components/Button";
 import { auth } from "../Firebase";
 
 
+
 const Login = ({ navigation }) => {
 
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+
+  async function onGoogleButtonPress() {
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+  
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
 
   useEffect(()=> {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -90,6 +102,7 @@ const Login = ({ navigation }) => {
             {/* // onPress={() => navigation.navigate("TabNavigator", {screen: "Home"})}/> */}
             <Button onPress={handleSignUp} text={"Register"} style={{ margin: 10, width: 100 }} />
           </View>
+       
         </SafeAreaView>    
 
       </Pressable>

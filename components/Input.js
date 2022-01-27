@@ -1,12 +1,16 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet, SnapshotViewIOS} from 'react-native';
 import {Font} from 'expo';
+import isEmpty from '../utils/isEmpty';
 
 const Input = ({title, value, onChangeText, placeholder, style, secureTextEntry, error}) => {
 
     return(
         <View style={style}>
-            <Text style={styles.title}>{title}</Text>
+            {isEmpty(title) ? 
+            null
+            : <Text style={styles.title}>{title}</Text>
+            }
             <TextInput
                 style = {styles.input}
                 value = {value}
@@ -31,7 +35,6 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#fff',
         height: 50,
-        width: 280,
         paddingVertical: 8,
         paddingHorizontal: 15,
         borderRadius: 10,
@@ -43,15 +46,13 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
-        elevation: 4,
         backgroundColor: '#FFFFFF',
     },
     title: {
         fontSize: 14,
-        marginBottom: 5,
     },
     error: {
-        marginTop: 5,
+
         color: '#ac0003',
     },
 
@@ -62,6 +63,7 @@ Input.defaultProps = {
     title: 'Title',
     placeholder: 'Placeholder...',
     secureTextEntry: false,
+    width: 280,
 };
 
 export default Input;

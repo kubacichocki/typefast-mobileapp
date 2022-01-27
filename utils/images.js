@@ -23,6 +23,14 @@ const images = {
     house: {
         imgName: 'House',
         uri: require('../assets/house.png')
+    },
+    controller: {
+        imgName: 'Controller',
+        uri: require('../assets/controller.png')
+    },
+    challenge: {
+        imgName: 'Challenge',
+        uri: require('../assets/challenge.png')
     }
 }
 
