@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../screens/Home";
 import About from "../screens/About";
 import Contact from "../screens/Contact";
+import Practise from "../screens/Practise";
 import Splash from "../screens/Splash";
 import Login from "../screens/Login";
 import Chat from "../screens/Chat";
@@ -21,7 +22,7 @@ const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Home" component={Home} options={{headerLeft: (props) => null, headerShown: false }}  />
-      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Practise" component={Practise} />
       <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }}  />
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}  />
     </Stack.Navigator>

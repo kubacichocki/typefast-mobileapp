@@ -12,6 +12,8 @@ import {
   Image,
 } from "react-native";
 import Icon from "../components/Icon";
+
+
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { auth } from "../Firebase";

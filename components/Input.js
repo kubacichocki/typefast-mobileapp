@@ -3,7 +3,7 @@ import {View, Text, TextInput, StyleSheet, SnapshotViewIOS} from 'react-native';
 import {Font} from 'expo';
 import isEmpty from '../utils/isEmpty';
 
-const Input = ({title, value, onChangeText, placeholder, style, secureTextEntry, error}) => {
+const Input = ({title, value, onChangeText, placeholder, style, secureTextEntry, error, inputStyle}) => {
 
     return(
         <View style={style}>

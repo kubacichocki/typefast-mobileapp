@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
       <Pressable onPress={Keyboard.dismiss} style={styles.container}>
         <SafeAreaView style={styles.inner}>
           <Icon style={{ marginBottom: 20 }}></Icon>
-        <MainMenuButton image='1' text={"Practise"} style={{margin: 10, width:290, flexDirection: "row"}}/>
+        <MainMenuButton image='1' text={"Practise"} style={{margin: 10, width:290, flexDirection: "row"}} onPress={() => navigation.navigate("Practise")}/>
         <MainMenuButton image='2' text={"Challenge"} style={{margin: 10, width:290, flexDirection: "row"}}/>
         </SafeAreaView>    
 

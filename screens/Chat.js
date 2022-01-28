@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -16,10 +16,6 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-// function ChatMessage(props) {
-//   const {text, uid} = props.message;
-//   return <Text>{text}</Text>
-// }
 
 const Chat = () => {
   const messagesRef = firestore.collection("messages"); // todos collection reference
@@ -27,11 +23,13 @@ const Chat = () => {
   const [message, setMessage] = useState(""); // todo
   const [messages, setMessages] = useState([]); // todos
   const { uid } = auth.currentUser;
+  const flatListRef = useRef()
   useEffect(() => {
     messagesRef
       // order by time of creating
-      .orderBy("date", "asc")
+      .orderBy("date")
       // fetch todos in realtime
+      .limitToLast(15)
       .onSnapshot(
         (querySnapshot) => {
           const newMessages = [];
@@ -61,6 +59,7 @@ const Chat = () => {
         text: message,
         date: new Date(),
         uid,
+        uemail : auth.currentUser.email
       };
       // add the data to firestore db
       messagesRef
@@ -69,7 +68,8 @@ const Chat = () => {
           // release todo state
           setMessage("");
           // release keyboard
-          Keyboard.dismiss();
+          // Keyboard.dismiss();
+          flatListRef.current.scrollToEnd({behavior: 'smooth'});
         })
         .catch((error) => {
           // show an alert in case of error
@@ -79,26 +79,27 @@ const Chat = () => {
   };
 
   const renderMessages = ({ item }) => {
+    
     return (
       <View>
+        <Text style={styles.messageAuthor}>{item.uemail}</Text>
+        <View style={styles.messageContainer}>
         <Text style={styles.item}>{item.text}</Text>
+        </View>
       </View>
     );
   };
 
-  // const messagesRef = firestore.collection('messages');
-  // const query = messagesRef.orderBy('date').limit(25);
-
-  // const [messages] = useCollectionData(query, {idField: 'id'});
   return (
     <View style={styles.center}>
-      <View style={styles.center}>
+      <View style={styles.chatBox}>
         <FlatList
           data={messages}
           renderItem={renderMessages}
           keyExtractor={(message) => message.id}
           removeClippedSubviews={true}
-        />
+          ref={flatListRef}
+        />   
       </View>
       <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -128,13 +129,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
   },
+  chatBox: {
+    marginTop: 20,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    marginBottom: 10,
+  },
   item: {
+ 
+    // overflow: "hidden",
+
+
+  },
+  messageContainer:{
     padding: 7,
     margin: 5,
     justifyContent: "center",
-    alignItems: "center",
-    height: 30,
-    borderRadius: 2,
+
+    minHeight: 30,
     borderColor: "#333333",
     shadowColor: "#000000",
     shadowOffset: {
@@ -146,6 +160,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
     backgroundColor: "#FFFFFF",
+    borderRadius: 7,
   },
+  messageAuthor: {
+    fontWeight: "100"
+  }
 });
 export default Chat;
