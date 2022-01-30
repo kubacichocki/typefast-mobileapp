@@ -27,7 +27,7 @@ const Chat = () => {
   useEffect(() => {
     messagesRef
       // order by time of creating
-      .orderBy("date")
+      .orderBy("date", "asc")
       // fetch todos in realtime
       .limitToLast(15)
       .onSnapshot(

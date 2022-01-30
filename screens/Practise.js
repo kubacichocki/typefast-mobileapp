@@ -7,28 +7,82 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   TextInput,
+  Alert,
 } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { auth, firestore } from "../Firebase";
 
-const Practise = () => {
+const Practise = ({navigation}) => {
 
-    const text ="While docking with the Endurance, Cooper calls out distances in feet. NASA uses the metric system, so he should have been calling the distances in meters. Of course, since it was a while since he worked for NASA, such mistakes were bound to happen.";
+    const scoresRef = firestore.collection("scores"); 
+    const text ="While docking with the Endurance.";
     const [bgcolor, setBackGroundColor] = useState("red")
+    const [seconds, setSeconds] = useState(0)
+    const [wpm, setWpm] = useState(0)
+
+    const saveScore = () => {
+        console.log()
+        const data = {
+            uid: auth.currentUser.uid,
+            score: wpm,
+        };
+        scoresRef
+            .add(data)
+            .catch((error) => {
+                alert(error);
+            })
+    }
+
+    const showAlert = () => {
+        Alert.alert("Success!","\nYou completed the challenge in "+seconds+"s⏱  \n Your score is: "+wpm+"wpm🚀",
+        [
+            {
+              text: "Try again",
+              onPress: () => Alert.alert("Cancel Pressed"),
+              style: "default",
+            },
+            {
+                text: "Menu",
+                onPress: () => navigation.goBack(),
+                style: "default",
+            }
+        ],
+        {
+            cancelable: true,
+            onDismiss: () =>
+              Alert.alert(
+                "This alert was dismissed by tapping outside of the alert dialog."
+              ),
+          }
+        );
+    }
 
     const validateText = (item) =>{
-
-        if(item===text.slice(0,item.length)){
+        len = item.length;
+        if(item===text.slice(0,len)){
             setBackGroundColor("green")
+            if(len==text.length){
+                saveScore()
+                showAlert()
+            }
         }else{
             setBackGroundColor("red")
         }
+        setWpm(Math.round(len/5/(seconds/60)))
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+        return () => clearInterval(interval);
+      }, []);
   
   return (
     <View style={styles.center}>
 
-      <Text style={styles.score}>Time: 25s 134wpm</Text>
+      <Text style={styles.score}>Time: {seconds}⏱ {wpm}wpm🔥</Text>
       <Text style={styles.txt}>{text}</Text>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -44,14 +98,7 @@ const Practise = () => {
         >
           <TextInput
             title=""
-            style={{        color: bgcolor,
-                width: 300, margin: 5,
-                backgroundColor: '#fff',
-                height: 50,
-                paddingVertical: 8,
-                paddingHorizontal: 15,
-                borderRadius: 10,
-                borderColor: '#333333',
+            style={{ color: bgcolor, width: 300, margin: 5, backgroundColor: '#fff', height: 50, paddingVertical: 8, paddingHorizontal: 15, borderRadius: 10, borderColor: '#333333',
                 shadowColor: '#000000', 
                 shadowOffset: {
                     width: 0,
@@ -84,6 +131,7 @@ const styles = StyleSheet.create({
   score: {
     marginTop: 40,
     fontWeight: "bold",
+    fontSize: 18
   },
   txt: {
     marginTop: 20,

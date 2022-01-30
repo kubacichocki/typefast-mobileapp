@@ -81,14 +81,14 @@ const Login = ({ navigation }) => {
             placeholder={"Enter your email..."}
             value={email}
             onChangeText={text => setEmail(text)}
-            style={{ marginBottom: 20 }}
+            style={{ marginBottom: 20, width: 290 }}
           />
           <Input
             title={"Password"}
             placeholder={"Enter your password..."}
             value={password}
             onChangeText={text => setPassword(text)}
-            style={{ marginBottom: 30 }}
+            style={{ marginBottom: 30, width: 290 }}
             secureTextEntry
           />
 
