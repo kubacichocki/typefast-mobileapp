@@ -3,6 +3,7 @@ import {View, Text, TextInput, StyleSheet, SnapshotViewIOS} from 'react-native';
 import {Font} from 'expo';
 import isEmpty from '../utils/isEmpty';
 
+//Input component
 const Input = ({title, value, onChangeText, placeholder, style, secureTextEntry, error, inputStyle}) => {
 
     return(
@@ -29,7 +30,7 @@ const Input = ({title, value, onChangeText, placeholder, style, secureTextEntry,
 };
 
 
-
+//Styling
 const styles = StyleSheet.create({
 
     input: {
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
 
 });
 
-
+//Input default properties
 Input.defaultProps = {
     title: 'Title',
     placeholder: 'Placeholder...',

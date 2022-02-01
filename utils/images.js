@@ -1,4 +1,4 @@
-
+//Images from assets
 const images = {
     google: {
         imgName: 'Google',

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, Image, View, StyleSheet} from "react-native";
 
+//Icon component
 const Icon = ({text, style}) => {
     return(
         <View style = {{...style, ...styles.container}}>
@@ -13,6 +14,7 @@ const Icon = ({text, style}) => {
 
 };
 
+//Styling
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
     }
 })
 
-
+//Icon default properties
 Icon.defaultProps = {
     text: 'App test'
 };

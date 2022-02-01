@@ -3,8 +3,10 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import {Text, StyleSheet, Pressable, Image} from 'react-native';
 import images from '../utils/images'
 
+//Main menu button component
 const MainMenuButton = ({image, text, onPress, bgColor, bgColorPress, style}) => {
 
+    //Use states
     const [bg, setBg] = React.useState(bgColor);
 
     return(
@@ -19,7 +21,8 @@ const MainMenuButton = ({image, text, onPress, bgColor, bgColorPress, style}) =>
         <Text style={styles.txt}>{text}</Text>
         </Pressable>
     )}
-
+    
+    //Styling
     const styles = StyleSheet.create({
         btn: {
             justifyContent: 'center',
@@ -49,10 +52,12 @@ const MainMenuButton = ({image, text, onPress, bgColor, bgColorPress, style}) =>
     });
 
 
+    //Default properties
     MainMenuButton.defaultProps = {
         onPress: () => null,
         bgColor: '#FFFFFF',
         bgColorPress: '#F9F9F9',
      
     }
+    
 export default MainMenuButton;

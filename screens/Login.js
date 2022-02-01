@@ -1,41 +1,24 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Pressable,
-  Keyboard,
-  Platform,
-  StatusBar,
-  View,
-  Text,
-  Image,
-} from "react-native";
+import { SafeAreaView, StyleSheet, KeyboardAvoidingView, Pressable, Keyboard, Platform, StatusBar, View} from "react-native";
 import Icon from "../components/Icon";
-
-
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { auth } from "../Firebase";
 
-
-
 const Login = ({ navigation }) => {
 
+  //Use states
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
 
+  //Get credentials from google api
   async function onGoogleButtonPress() {
-    // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
-  
-    // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  
-    // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
 
+  //If user is logged in navigate to home
   useEffect(()=> {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if(user){
@@ -45,37 +28,36 @@ const Login = ({ navigation }) => {
     return unsubscribe
   }, [])
 
+  //handle sign up
   const handleSignUp = () => {
     auth
     .createUserWithEmailAndPassword(email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
-      console.log('Registered in with:',user.email)
     })
     .catch(error => alert(error.message))
   }
 
+  //handle sign in
   const handleSighIn = () => {
     auth
     .signInWithEmailAndPassword(email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
-      console.log('Logged in with:',user.email)
     })
     .catch(error=>alert(error.message))
   }
   
+  //render login screen
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <StatusBar barStyle={"dark-content"} />
-
       <Pressable onPress={Keyboard.dismiss} style={styles.container}>
         <SafeAreaView style={styles.inner}>
           <Icon style={{ marginBottom: 20 }}></Icon>
-
           <Input
             title={"Email"}
             placeholder={"Enter your email..."}
@@ -91,7 +73,6 @@ const Login = ({ navigation }) => {
             style={{ marginBottom: 30, width: 290 }}
             secureTextEntry
           />
-
           <View
             style={{
               flex: 0.3,
@@ -101,18 +82,15 @@ const Login = ({ navigation }) => {
           >
             <Button text={"Login"} style={{ margin: 10, width: 100 }} 
             onPress={handleSighIn}/>
-            {/* // onPress={() => navigation.navigate("TabNavigator", {screen: "Home"})}/> */}
             <Button onPress={handleSignUp} text={"Register"} style={{ margin: 10, width: 100 }} />
           </View>
-       
         </SafeAreaView>    
-
       </Pressable>
-    </KeyboardAvoidingView>
-    
+    </KeyboardAvoidingView>    
   );
 };
 
+//Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,

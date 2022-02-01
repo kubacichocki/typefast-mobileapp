@@ -3,8 +3,9 @@ import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import Icon from '../components/Icon';
 import { auth, firebase } from '../Firebase';
 
-
+//Splash screen
 const Splash = ({ navigation }) => {
+    //navigate to login
     useEffect(() => {
         setTimeout(() => {
             navigation.navigate("Login", {screen:"Login"})
@@ -16,6 +17,8 @@ const Splash = ({ navigation }) => {
         </View>
     );
 };
+
+//styling
 const styles = StyleSheet.create({
     center: {
         flex: 1,
@@ -24,4 +27,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 });
+
 export default Splash;

@@ -2,14 +2,15 @@ import React from "react";
 import { Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../screens/Home";
-import About from "../screens/About";
-import Contact from "../screens/Contact";
+import IconStore from "../screens/IconStore";
 import Practise from "../screens/Practise";
 import Splash from "../screens/Splash";
 import Login from "../screens/Login";
 import Chat from "../screens/Chat";
 import Profile from "../screens/Profile";
 import BottomTabNavigator from "./TabNavigator";
+
+// create stack
 const Stack = createStackNavigator();
 const screenOptionStyle = {
   headerStyle: {
@@ -18,6 +19,8 @@ const screenOptionStyle = {
   headerTintColor: "white",
   headerBackTitle: "Back",
 };
+
+//Navigation stacks. 
 const HomeStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
@@ -28,13 +31,7 @@ const HomeStackNavigator = () => {
     </Stack.Navigator>
   );
 }
-const ContactStackNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="Contact" component={Contact} options={{ headerLeft: (props) => null }} />
-    </Stack.Navigator>
-  );
-}
+
 export default MainStackNavigator = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -44,4 +41,4 @@ export default MainStackNavigator = () => {
         </Stack.Navigator>
     );
 }
-export { HomeStackNavigator, ContactStackNavigator };
+export { HomeStackNavigator };

@@ -3,11 +3,13 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import {Text, StyleSheet, Pressable, Image} from 'react-native';
 import images from '../utils/images'
 
-
+//Button component
 const Button = ({image, text, onPress, bgColor, bgColorPress, style}) => {
 
+    //Use states
     const [bg, setBg] = React.useState(bgColor);
 
+    //return component
     return(
         <Pressable style={{...style, ...styles.btn, backgroundColor: bg,}}
         onPress = {onPress}
@@ -19,7 +21,7 @@ const Button = ({image, text, onPress, bgColor, bgColorPress, style}) => {
         </Pressable>
     )}
 
-
+//Styling
 const styles = StyleSheet.create({
     btn: {
         justifyContent: 'center',
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
     }
 });
 
+//Default properties
 Button.defaultProps = {
     text: 'Button',
     onPress: () => null,

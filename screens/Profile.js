@@ -2,15 +2,21 @@ import React, { useState, useEffect}from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import {auth, firestore} from "../Firebase";
 import Button from "../components/Button";
-const scoresRef = firestore.collection("scores");
-const Profile = ( {navigation} ) => {
 
+//Needed references to firestore collections
+const scoresRef = firestore.collection("scores");
+const docRef = firestore.collection('fastpoints').doc('bTBHhs2CcEbkcWMd389c')
+
+//Profile component
+const Profile = ( {navigation} ) => {
+ 
+  //Use states and properties
   const email = auth.currentUser.email
   const uid = auth.currentUser.uid
   const [highestScore, setHighestScore] = useState(0)
   const [fastPoints, setFastPoints] = useState(0)
-  const [currentPoints, setCurrentPoints] = useState(0)
 
+  //Sign out
   const handleSignOut = () => {
     auth
     .signOut()
@@ -20,45 +26,57 @@ const Profile = ( {navigation} ) => {
     .catch(error => alert(error.messsage))
   }
 
+  //Get fastpoints from firestore
+  useEffect(() => {
+    firestore.collection("fastpoints").where("uid", "==", auth.currentUser.uid)
+    .onSnapshot(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            let id = doc.id
+            setFastPoints(doc.data().points)                        
+        });
+    })
+  }, [])
 
+  //Get highest score from firestore
   useEffect(() => {
     scoresRef
-    // order by time of creating
-    // .orderBy('score', 'desc')
-    // .limit(1)
     .where('uid','==',auth.currentUser.uid)
     .orderBy('score')
-  
-    // fetch todos in realtime
     .onSnapshot(
         querySnapshot => {
-            const newTodos = []
-            // loop through the saved todos
+            const scores = []
             querySnapshot.forEach(doc => {
-                const todo = doc.data()
-                newTodos.push(todo.score)
+                const data = doc.data()
+                scores.push(data.score)
             })
-            setHighestScore(newTodos[newTodos.length-1])
-            let sum = 0
-            for(let i = 0; i<newTodos.length; i++){
-              sum += newTodos[i]
-            }
-            setFastPoints(sum)
+            setHighestScore(scores[scores.length-1])
         },
         error => {
-            // log any error
             console.error(error);
         }
     )
+    //set Fastpoints
+    firestore.collection("fastpoints").where("uid", "==", uid)
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            setFastPoints(doc.data().points)
+            
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
   }, []);
 
+  //render profile screen
   return (
     <View style={styles.center}>
       <View style={styles.container}>
       <Image source={require("../assets/profile2.png")} style={{height: 260, width: 260}}></Image>
       <Text style={{fontSize: 19, color: "#333333", fontWeight:"400", marginBottom: 15}}>{email}</Text>
       <View style={styles.nestedContainer}>
-        <Text style={{fontSize: 20}}>FastPoints: {fastPoints}🏆</Text>
+        <Text style={{fontSize: 20}}>FastPoints: {fastPoints}💰</Text>
         <Text style={{fontSize: 20}}>Highest score: {highestScore}wpm 🚀‍</Text>
       </View>
       <Button onPress={handleSignOut} text={"Log out"} style={{ margin: 10, width: 290 }} />
@@ -67,6 +85,8 @@ const Profile = ( {navigation} ) => {
     </View>
   );
 };
+
+//styling
 const styles = StyleSheet.create({
   center: {
     flex: 1,
@@ -89,7 +109,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   nestedContainer: {
-    // marginTop: 80,
     height: 135,
     width: 300,
     borderColor: '#cdcdcd',
@@ -99,4 +118,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
 export default Profile;

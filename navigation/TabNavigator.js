@@ -1,10 +1,12 @@
 import React from "react";
 import Profile from "../screens/Profile";
 import Chat from "../screens/Chat";
+import IconStore from "../screens/IconStore";
 import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeStackNavigator, ContactStackNavigator } from "./StackNavigator";
+import { HomeStackNavigator } from "./StackNavigator";
 
+//Bottom tab Navigator
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
     return (
@@ -37,8 +39,8 @@ const BottomTabNavigator = () => {
 
                  />
             <Tab.Screen 
-                name="Settings" 
-                component={ContactStackNavigator}
+                name="Store" 
+                component={IconStore}
                 options={{
                     tabBarIcon: () => (<Image source={require("../assets/settings.png")} style={{width: 60, height: 60}} />)
                 }}
