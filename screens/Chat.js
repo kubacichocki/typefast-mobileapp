@@ -15,6 +15,8 @@ const Chat = () => {
   const emojis = ["👦","👩","🧑🏾","👩🏾","🕵️","🕵️‍♀️","👨🏼‍🚀","👩🏼‍🚀","👶"]
   const { uid } = auth.currentUser;
   const flatListRef = useRef()
+
+
   
   //UseEffects to get data from firestore
   useEffect(() => {
@@ -32,24 +34,19 @@ const Chat = () => {
 
   useEffect(() => {
     messagesRef
-      // order by time of creating
       .orderBy("date", "asc")
-      // fetch todos in realtime
       .limitToLast(15)
       .onSnapshot(
         (querySnapshot) => {
           const newMessages = [];
-          // loop through the saved todos
           querySnapshot.forEach((doc) => {
             const message = doc.data();
             message.id = doc.id;
             newMessages.push(message);
           });
           setMessages(newMessages);
-          // set the todos to the state
         },
         (error) => {
-          // log any error
           console.error(error);
         }
       );
@@ -130,6 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+    backgroundColor: '#ffffff',
   },
   chatBox: {
     marginTop: 20,

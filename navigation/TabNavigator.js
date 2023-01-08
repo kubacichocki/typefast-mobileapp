@@ -12,7 +12,7 @@ const BottomTabNavigator = () => {
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle:{height:80} }} > 
             <Tab.Screen
-                name="HomeTab"
+                name="Home"
                 component={HomeStackNavigator}
                 options={{
                     tabBarIcon: () => (<Image source={require("../assets/house.png")} style={{width: 60, height: 60}} />),
@@ -21,7 +21,7 @@ const BottomTabNavigator = () => {
 
                  />
           <Tab.Screen
-                name="ChatTab"
+                name="Chat"
                 component={Chat}
                 options={{
                     tabBarIcon: () => (<Image source={require("../assets/chat.png")} style={{width: 60, height: 60}} />),
@@ -30,7 +30,7 @@ const BottomTabNavigator = () => {
 
                  />
          <Tab.Screen
-                name="ProfileTab"
+                name="Profile"
                 component={Profile}
                 options={{
                     tabBarIcon: () => (<Image source={require("../assets/profile.png")} style={{width: 60, height: 60}} />),

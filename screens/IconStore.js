@@ -45,7 +45,6 @@ chooseAlert = (par) => {
   );
 }
 
-
   //useEffect to get data from firestore
   useEffect(() => {
     firestore.collection("fastpoints").where("uid", "==", auth.currentUser.uid)
@@ -58,16 +57,58 @@ chooseAlert = (par) => {
   }, [])
 
   useEffect(() => {
-    console.log(auth.currentUser.uid)
-    firestore.collection("avatars").where("uid", "==", auth.currentUser.uid)
-    .onSnapshot(querySnapshot => {
-      const array = []
-      let i = 0;
-        querySnapshot.forEach(doc => {
-            setDocRef(doc.id)                
-        });
+    (async function() {
+        try {
+          const response = await firestore
+          .collection("avatars")
+          .where("uid", "==", auth.currentUser.uid)
+          .get()
+          .then((querySnapshot) => {
+            if(querySnapshot.empty)
+            {
+              createDoc()
+            }else{
+              querySnapshot.forEach(function (doc) {
+                setDocRef(doc.id)
+              });
+            }
+
+          });
+        } catch (e) {
+            console.error(e);
+        }
+    })();
+}, []);
+
+  //Create user avatars document
+  const createDoc = () => {
+    const data = {
+      uid: auth.currentUser.uid,
+      active: 8,
+    };
+    firestore
+      .collection("avatars")
+      .add(data)
+      .then(() => {
+        getRef()
       })
-    }, [])
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+    //Get user avatars document id
+    const getRef = () => {
+      firestore.collection("avatars")
+      .where("uid", "==", auth.currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(function (doc){
+          setDocRef(doc.id)
+        })
+      })
+    }
+
 
     //Render screen
   return (
@@ -119,6 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+    backgroundColor: '#ffffff',
   },
   header:{
     justifyContent: "center",

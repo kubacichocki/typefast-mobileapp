@@ -111,19 +111,14 @@ const Practise = ({ navigation }) => {
           style: "default",
         },
       ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            "This alert was dismissed by tapping outside of the alert dialog."
-          ),
-      }
     );
   };
 
   //Validate user input
   const validateText = (item) => {
     len = item.length;
+    console.log(item)
+    console.log(text.slice(0, len))
     if (item === text.slice(0, len)) {
       setBackGroundColor("green");
       if (len == text.length) {
@@ -201,6 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     textAlign: "center",
+    backgroundColor: '#ffffff',
   },
   score: {
     marginTop: 40,
